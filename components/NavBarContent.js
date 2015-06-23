@@ -8,7 +8,8 @@ var NavButton = require('./NavButton');
 var {
   StyleSheet,
   Text,
-  View
+  View,
+  Image
 } = React;
 
 
@@ -53,14 +54,14 @@ var NavBarContent = React.createClass({
   },
 
   render() {
-    var transitionStyle = { 
+    var transitionStyle = {
       opacity: this.getTweeningValue('opacity'),
     };
 
     var leftCorner;
     var rightCorner;
     var titleComponent;
-    
+
 
     /**
      * Set leftCorner
@@ -119,12 +120,30 @@ var NavBarContent = React.createClass({
       </View>
     );
 
+    var barComponent;
+
+    if (this.props.route.backgroundImage) {
+      barComponent = (
+        <Image source={{uri: this.props.route.backgroundImage}}
+               style={styles.backgroundImage} >
+          {leftCorner}
+          {titleComponent}
+          {rightCorner}
+        </Image>
+      )
+    } else {
+      barComponent = (
+        <View>
+          {leftCorner}
+          {titleComponent}
+          {rightCorner}
+        </View>
+      )
+    }
 
     return (
       <View style={[styles.navbar, this.props.route.headerStyle, transitionStyle]}>
-        {leftCorner}
-        {titleComponent}
-        {rightCorner}
+        {barComponent}
       </View>
     );
   }
@@ -132,6 +151,11 @@ var NavBarContent = React.createClass({
 
 
 var styles = StyleSheet.create({
+  backgroundImage: {
+    marginTop: 5,
+    flex: 1,
+    height: 46,
+  },
   navbar: {
     position: 'absolute',
     top: 0,
