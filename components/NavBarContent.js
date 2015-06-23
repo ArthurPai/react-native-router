@@ -10,7 +10,7 @@ var {
   Text,
   View,
   Image
-} = React;
+  } = React;
 
 
 var NavBarContent = React.createClass({
@@ -123,38 +123,37 @@ var NavBarContent = React.createClass({
     var barComponent;
 
     if (this.props.route.backgroundImage) {
-      barComponent = (
+      return (
         <Image source={{uri: this.props.route.backgroundImage}}
                style={styles.backgroundImage} >
-          {leftCorner}
-          {titleComponent}
-          {rightCorner}
+          <View style={[styles.navbar, this.props.route.headerStyle, transitionStyle]}>
+            {leftCorner}
+            {titleComponent}
+            {rightCorner}
+          </View>
         </Image>
       )
     } else {
-      barComponent = (
-        <View>
+      return (
+        <View style={[styles.navbar, this.props.route.headerStyle, transitionStyle]}>
           {leftCorner}
           {titleComponent}
           {rightCorner}
         </View>
       )
     }
-
-    return (
-      <View style={[styles.navbar, this.props.route.headerStyle, transitionStyle]}>
-        {barComponent}
-      </View>
-    );
   }
 });
 
 
 var styles = StyleSheet.create({
   backgroundImage: {
-    marginTop: 5,
+    //marginTop: 5,
     flex: 1,
-    height: 46,
+    flexDirection: 'row',
+  },
+  barContainer: {
+    flexDirection: 'row',
   },
   navbar: {
     position: 'absolute',

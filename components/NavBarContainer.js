@@ -7,7 +7,7 @@ var NavBarContent = require('./NavBarContent');
 var {
   StyleSheet,
   View
-} = React;
+  } = React;
 
 
 var NavBarContainer = React.createClass({
@@ -43,22 +43,15 @@ var NavBarContainer = React.createClass({
   render: function() {
     return (
       <View style={[styles.navbarContainer, this.props.style]}>
-        <NavBarContent 
-          route={this.state.previousRoute} 
-          backButtonComponent={this.props.backButtonComponent}
-          rightCorner={this.props.rightCorner}
-          titleStyle={this.props.titleStyle}
-          willDisappear="true" 
-        />
-        <NavBarContent 
-          route={this.props.currentRoute} 
+        <NavBarContent
+          route={this.props.currentRoute}
           backButtonComponent={this.props.backButtonComponent}
           rightCorner={this.props.rightCorner}
           titleStyle={this.props.titleStyle}
           goBack={this.goBack}
           goForward={this.goForward}
           customAction={this.customAction}
-        />
+          />
       </View>
     )
   }
