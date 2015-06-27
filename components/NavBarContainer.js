@@ -7,7 +7,7 @@ var NavBarContent = require('./NavBarContent');
 var {
   StyleSheet,
   View
-  } = React;
+} = React;
 
 
 var NavBarContainer = React.createClass({

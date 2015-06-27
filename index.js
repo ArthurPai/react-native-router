@@ -9,7 +9,7 @@ var {
   Navigator,
   StatusBarIOS,
   View,
-} = React;
+  } = React;
 
 
 var Router = React.createClass({
@@ -71,8 +71,8 @@ var Router = React.createClass({
     var didStartDrag = function(evt) {
       var x = evt.nativeEvent.pageX;
       if (x < 28) {
-        this.setState({ 
-          dragStartX: x, 
+        this.setState({
+          dragStartX: x,
           didSwitchView: false
         });
         return true;
@@ -100,7 +100,7 @@ var Router = React.createClass({
     if (this.props.hideNavigationBar) {
       extraStyling.marginTop = 0;
     }
-    
+
     return (
       <View
         style={[styles.container, this.props.bgStyle, extraStyling]}
@@ -115,10 +115,10 @@ var Router = React.createClass({
           toBack={goBackwards}
           reset={goToFirstRoute}
           customAction={customAction}
-        />
+          />
       </View>
     )
-    
+
   },
 
   render: function() {
@@ -133,18 +133,19 @@ var Router = React.createClass({
     var navigationBar;
 
     if (!this.props.hideNavigationBar) {
-      navigationBar = 
-      <NavBarContainer
-        style={this.props.headerStyle}
-        navigator={navigator} 
-        currentRoute={this.state.route}
-        backButtonComponent={this.props.backButtonComponent}
-        rightCorner={this.props.rightCorner}
-        titleStyle={this.props.titleStyle}
-        toRoute={this.onForward}
-        toBack={this.onBack}
-        customAction={this.customAction}
-      />
+      navigationBar =
+        <NavBarContainer
+          style={this.props.headerStyle}
+          bgImageStyle={this.props.bgImageStyle}
+          navigator={navigator}
+          currentRoute={this.state.route}
+          backButtonComponent={this.props.backButtonComponent}
+          rightCorner={this.props.rightCorner}
+          titleStyle={this.props.titleStyle}
+          toRoute={this.onForward}
+          toBack={this.onBack}
+          customAction={this.customAction}
+          />
     }
 
     return (
@@ -153,7 +154,7 @@ var Router = React.createClass({
         navigationBar={navigationBar}
         renderScene={this.renderScene}
         onDidFocus={this.onDidFocus}
-      />
+        />
     )
   }
 });

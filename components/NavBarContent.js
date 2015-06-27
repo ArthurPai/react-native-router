@@ -120,37 +120,35 @@ var NavBarContent = React.createClass({
       </View>
     );
 
-    var barComponent;
+    var imageComponent = null;
 
     if (this.props.route.backgroundImage) {
-      return (
-        <Image source={{uri: this.props.route.backgroundImage}}
-               style={styles.backgroundImage} >
-          <View style={[styles.navbar, this.props.route.headerStyle, transitionStyle]}>
-            {leftCorner}
-            {titleComponent}
-            {rightCorner}
-          </View>
-        </Image>
-      )
-    } else {
-      return (
-        <View style={[styles.navbar, this.props.route.headerStyle, transitionStyle]}>
-          {leftCorner}
-          {titleComponent}
-          {rightCorner}
-        </View>
+      imageComponent = (
+        <Image source={this.props.route.backgroundImage}
+               style={[styles.backgroundImage, this.props.route.bgImageStyle]} />
       )
     }
+
+    return (
+      <View style={[styles.navbar, this.props.route.headerStyle, transitionStyle]}>
+        {imageComponent}
+        {leftCorner}
+        {titleComponent}
+        {rightCorner}
+      </View>
+    )
   }
 });
 
 
 var styles = StyleSheet.create({
   backgroundImage: {
-    //marginTop: 5,
-    flex: 1,
-    flexDirection: 'row',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    width: 640,
+    height: 64,
   },
   barContainer: {
     flexDirection: 'row',
