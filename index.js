@@ -9,12 +9,36 @@ var {
   Navigator,
   StatusBarIOS,
   View,
-  } = React;
+  PropTypes,
+} = React;
 
 
 var Router = React.createClass({
+  propTypes: {
+    onWillFocus: PropTypes.func,
+    onDidFocus: PropTypes.func,
+    customAction: PropTypes.func,
+    hideNavigationBar: PropTypes.bool,
+    bgStyle: PropTypes.any,
+    statusBarColor: PropTypes.string,
+    headerStyle: PropTypes.any,
+    backButtonComponent: PropTypes.any,
+    rightCorner: PropTypes.any,
+    titleStyle: PropTypes.any,
+    firstRoute: PropTypes.object,
+  },
 
-  getInitialState: function() {
+  getDefaultProps: function () {
+    return {
+      onWillFocus: () => {
+      },
+      onDidFocus: () => {
+      },
+      hideNavigationBar: false,
+    }
+  },
+
+  getInitialState: function () {
     return {
       route: {
         name: null,
@@ -25,50 +49,55 @@ var Router = React.createClass({
     }
   },
 
-  /* 
+  onWillFocus: function (route) {
+    this.props.onWillFocus(route);
+  },
+
+  /*
    * This changes the title in the navigation bar
    * It should preferrably be called for "onWillFocus" instad >
    * > but a recent update to React Native seems to break the animation
    */
-  onDidFocus: function(route) {
-    this.setState({ route: route });
+  onDidFocus: function (route) {
+    this.setState({route: route});
+    this.props.onDidFocus(route);
   },
 
-  onBack: function(navigator) {
+  onBack: function (navigator) {
     if (this.state.route.index > 0) {
       navigator.pop();
     }
   },
 
-  onForward: function(route, navigator) {
+  onForward: function (route, navigator) {
     route.index = this.state.route.index + 1 || 1;
     navigator.push(route);
   },
 
-  customAction: function(opts) {
+  customAction: function (opts) {
     this.props.customAction(opts);
   },
 
-  renderScene: function(route, navigator) {
+  renderScene: function (route, navigator) {
 
-    var goForward = function(route) {
+    var goForward = function (route) {
       route.index = this.state.route.index + 1 || 1;
       navigator.push(route);
     }.bind(this);
 
-    var goBackwards = function() {
+    var goBackwards = function () {
       this.onBack(navigator);
     }.bind(this);
 
-    var goToFirstRoute = function() {
+    var goToFirstRoute = function () {
       navigator.popToTop()
     };
 
-    var customAction = function(opts) {
+    var customAction = function (opts) {
       this.customAction(opts);
     }.bind(this);
 
-    var didStartDrag = function(evt) {
+    var didStartDrag = function (evt) {
       var x = evt.nativeEvent.pageX;
       if (x < 28) {
         this.setState({
@@ -80,16 +109,16 @@ var Router = React.createClass({
     }.bind(this);
 
     // Recognize swipe back gesture for navigation
-    var didMoveFinger = function(evt) {
+    var didMoveFinger = function (evt) {
       var draggedAway = ((evt.nativeEvent.pageX - this.state.dragStartX) > 30);
       if (!this.state.didSwitchView && draggedAway) {
         this.onBack(navigator);
-        this.setState({ didSwitchView: true });
+        this.setState({didSwitchView: true});
       }
     }.bind(this);
 
     // Set to false to prevent iOS from hijacking the responder
-    var preventDefault = function(evt) {
+    var preventDefault = function (evt) {
       return true;
     };
 
@@ -121,7 +150,7 @@ var Router = React.createClass({
 
   },
 
-  render: function() {
+  render: function () {
 
     // Status bar color
     if (this.props.statusBarColor === "black") {
@@ -154,6 +183,7 @@ var Router = React.createClass({
         navigationBar={navigationBar}
         renderScene={this.renderScene}
         onDidFocus={this.onDidFocus}
+        onWillFocus={this.onWillFocus}
         />
     )
   }
